@@ -3,9 +3,11 @@ from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.ensemble import RandomForestClassifier
 import pickle
+import os
 
-# Load the dataset
-df = pd.read_csv(r'A:\sakhi2\Spam-Email-Detection-main\Data Source\SPAM.csv')
+# Load the dataset using a relative path
+data_path = os.path.join(os.getcwd(), 'Data Source', 'SPAM.csv')
+df = pd.read_csv(data_path)
 
 # Preprocess the data
 X = df['Message']
@@ -23,11 +25,17 @@ X_test_tfidf = tfidf.transform(X_test)
 model = RandomForestClassifier()
 model.fit(X_train_tfidf, y_train)
 
-# Save the model and feature vectorizer
-with open('A:\\sakhi2\\Spam-Email-Detection-main\\Pickle Files\\model.pkl', 'wb') as model_file:
+# Save the model and feature vectorizer using relative paths
+pickle_dir = os.path.join(os.getcwd(), 'Pickle Files')
+os.makedirs(pickle_dir, exist_ok=True)  # Ensure the directory exists
+
+model_path = os.path.join(pickle_dir, 'model.pkl')
+feature_path = os.path.join(pickle_dir, 'feature.pkl')
+
+with open(model_path, 'wb') as model_file:
     pickle.dump(model, model_file)
 
-with open('A:\\sakhi2\\Spam-Email-Detection-main\\Pickle Files\\feature.pkl', 'wb') as feature_file:
+with open(feature_path, 'wb') as feature_file:
     pickle.dump(tfidf, feature_file)
 
 print("Model and feature vectorizer saved successfully.")
