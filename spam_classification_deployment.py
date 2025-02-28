@@ -28,7 +28,8 @@ st.title("📧 Spam E-Mail Detection")
 # Load the image using a relative path
 image_path = os.path.join(os.getcwd(), 'Data Source', 'images.jpg')
 image = Image.open(image_path)
-st.image(image, use_column_width=True)
+st.image(image, use_container_width=True)
+
 
 # Input for the email message
 input_mail = st.text_input("✉️ Enter the Message")
